@@ -8,6 +8,7 @@ const PASSWORD_HASH =
 
 
 // section boundaries
+const Jan8 = 2;
 const EARLY_END = 7;
 const DATES_END = 19;
 
@@ -21,12 +22,12 @@ const ENABLE_MUSIC = false;
 
 // text placeholders
 const TEXTS = {
-  BEFORE_CHILDHOOD: "<TEXT_BEFORE_CHILDHOOD>",
-  TRANSITION_US: "<TEXT_TRANSITION_INTO_US>",
-  BEFORE_EARLY: "<TEXT_BEFORE_EARLY_PICS>",
-  BEFORE_DATES: "<TEXT_BEFORE_DATES>",
-  BEFORE_CRAZY: "<TEXT_BEFORE_CRAZY_US>",
-  ENDING: "<TEXT_ENDING>",
+  BEFORE_CHILDHOOD: "There were two kutti kids, quietly making their way towards each other.",
+  TRANSITION_US: "Then, one fine day, we met - one of the most special days for both of us.",
+  BEFORE_EARLY: "We took time, but then, once we started, we just fell in love with each other every single day.",
+  BEFORE_DATES: "Soon came the phase of endless outings, adventures and fun that brought us even closer.",
+  BEFORE_CRAZY: "Once we started understanding each other, nothing else mattered... just the two of us soo deeply and crazily in love.",
+  ENDING: "These were some of the most beautiful memories we created together over the decade. Really can’t wait to make many more. I love you always, Archi ma!"
 };
 
 /***********************
@@ -94,23 +95,49 @@ function startSlideshow() {
 async function buildSlides() {
   slides = [];
 
+  // 1. Before childhood
   slides.push(textSlide(TEXTS.BEFORE_CHILDHOOD));
+
+  // 2. Childhood images
   slides.push(...CHILDHOOD_MEDIA.map(mediaSlide));
 
+  // 3. Transition into "us"
   slides.push(textSlide(TEXTS.TRANSITION_US));
+
+  // 4. Jan 8 special images (US_MEDIA[0] and US_MEDIA[1])
+  slides.push(...US_MEDIA.slice(0, Jan8).map(mediaSlide));
+
+  // 5. Before early phase
   slides.push(textSlide(TEXTS.BEFORE_EARLY));
 
-  slides.push(...US_MEDIA.slice(0, EARLY_END).map(mediaSlide));
+  // 6. Early "us" phase (after Jan 8)
+  slides.push(
+    ...US_MEDIA.slice(Jan8, EARLY_END).map(mediaSlide)
+  );
 
+  // 7. Before dates phase
   slides.push(textSlide(TEXTS.BEFORE_DATES));
-  slides.push(...US_MEDIA.slice(EARLY_END, DATES_END).map(mediaSlide));
 
+  // 8. Dates / outings phase
+  slides.push(
+    ...US_MEDIA.slice(EARLY_END, DATES_END).map(mediaSlide)
+  );
+
+  // 9. Before crazy-us
   slides.push(textSlide(TEXTS.BEFORE_CRAZY));
-  slides.push(...US_MEDIA.slice(DATES_END).map(mediaSlide));
 
+  // 10. Crazy-us
+  slides.push(
+    ...US_MEDIA.slice(DATES_END).map(mediaSlide)
+  );
+
+  // 11. Ending
   slides.push(textSlide(TEXTS.ENDING));
+
+  // 12. Final button
   slides.push(finalButtonSlide());
 }
+
 
 
 function showNext() {
