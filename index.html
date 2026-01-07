@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading…</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- FRONT / LOCK SCREEN -->
+  <div id="lock-screen">
+    <!-- looks intentionally neutral -->
+    <div id="tap-zone"></div>
+
+    <!-- hidden password input -->
+    <div id="password-container">
+      <input
+        type="password"
+        id="password-input"
+        placeholder=" "
+        autocomplete="off"
+      />
+    </div>
+  </div>
+
+  <!-- SLIDESHOW ROOT -->
+  <div id="slideshow" class="hidden"></div>
+
+  <!-- AUDIO (optional) -->
+  <audio id="bg-music" preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
