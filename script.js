@@ -95,25 +95,23 @@ async function buildSlides() {
   slides = [];
 
   slides.push(textSlide(TEXTS.BEFORE_CHILDHOOD));
-
-  slides.push(...await mediaSlides("assets/01_childhood"));
+  slides.push(...CHILDHOOD_MEDIA.map(mediaSlide));
 
   slides.push(textSlide(TEXTS.TRANSITION_US));
   slides.push(textSlide(TEXTS.BEFORE_EARLY));
 
-  const usFiles = await listMedia("assets/02_us");
-
-  slides.push(...usFiles.slice(0, EARLY_END).map(mediaSlide));
+  slides.push(...US_MEDIA.slice(0, EARLY_END).map(mediaSlide));
 
   slides.push(textSlide(TEXTS.BEFORE_DATES));
-  slides.push(...usFiles.slice(EARLY_END, DATES_END).map(mediaSlide));
+  slides.push(...US_MEDIA.slice(EARLY_END, DATES_END).map(mediaSlide));
 
   slides.push(textSlide(TEXTS.BEFORE_CRAZY));
-  slides.push(...usFiles.slice(DATES_END).map(mediaSlide));
+  slides.push(...US_MEDIA.slice(DATES_END).map(mediaSlide));
 
   slides.push(textSlide(TEXTS.ENDING));
   slides.push(finalButtonSlide());
 }
+
 
 function showNext() {
   if (currentIndex >= slides.length) return;
@@ -200,16 +198,16 @@ function playHiddenVideo() {
  * HELPERS
  ***********************/
 
-async function listMedia(path) {
-  // GitHub Pages compatible directory listing
-  const res = await fetch(path);
-  const text = await res.text();
-  const matches = [...text.matchAll(/href="([^"]+)"/g)]
-    .map(m => m[1])
-    .filter(f => /\.(jpg|jpeg|png|mp4)$/i.test(f))
-    .sort();
-  return matches.map(f => `${path}/${f}`);
-}
+// async function listMedia(path) {
+//   // GitHub Pages compatible directory listing
+//   const res = await fetch(path);
+//   const text = await res.text();
+//   const matches = [...text.matchAll(/href="([^"]+)"/g)]
+//     .map(m => m[1])
+//     .filter(f => /\.(jpg|jpeg|png|mp4)$/i.test(f))
+//     .sort();
+//   return matches.map(f => `${path}/${f}`);
+// }
 
 function fadeInAudio(audio) {
   let vol = 0;
