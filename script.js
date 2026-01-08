@@ -59,11 +59,24 @@ passwordInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
     const entered = passwordInput.value;
     const hash = await sha256(entered);
+
     if (hash === PASSWORD_HASH) {
+      if (ENABLE_MUSIC) {
+        const audio = document.getElementById("bg-music");
+        audio.src = MUSIC_FILE;
+        audio.volume = 0;
+        audio.play().then(() => {
+          fadeInAudio(audio);
+        }).catch(() => {
+          // mobile may still block, but this is the best possible trigger
+        });
+      }
+
       startSlideshow();
     }
   }
 });
+
 
 async function sha256(str) {
   const buf = new TextEncoder().encode(str);
@@ -131,13 +144,13 @@ function startSlideshow() {
   document.getElementById("lock-screen").classList.add("hidden");
   slideshow.classList.remove("hidden");
 
-  if (ENABLE_MUSIC) {
-    const audio = document.getElementById("bg-music");
-    audio.src = MUSIC_FILE;
-    audio.volume = 0;
-    audio.play();
-    fadeInAudio(audio);
-  }
+  // if (ENABLE_MUSIC) {
+  //   const audio = document.getElementById("bg-music");
+  //   audio.src = MUSIC_FILE;
+  //   audio.volume = 0;
+  //   audio.play();
+  //   fadeInAudio(audio);
+  // }
 
   buildSlides().then(() => showNext());
 }
