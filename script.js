@@ -57,25 +57,33 @@ tapZone.addEventListener("click", () => {
 
 passwordInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
-    const entered = passwordInput.value;
-    const hash = await sha256(entered);
-
-    if (hash === PASSWORD_HASH) {
-      if (ENABLE_MUSIC) {
-        const audio = document.getElementById("bg-music");
-        audio.src = MUSIC_FILE;
-        audio.volume = 0;
-        audio.play().then(() => {
-          fadeInAudio(audio);
-        }).catch(() => {
-          // mobile may still block, but this is the best possible trigger
-        });
-      }
-
-      startSlideshow();
-    }
+    unlock();
   }
 });
+
+
+document.getElementById("unlock-btn").addEventListener("click", unlock);
+
+async function unlock() {
+  const entered = passwordInput.value;
+  const hash = await sha256(entered);
+
+  if (hash !== PASSWORD_HASH) return;
+
+  if (ENABLE_MUSIC) {
+    const audio = document.getElementById("bg-music");
+    audio.src = MUSIC_FILE;
+    audio.volume = 0;
+    audio.play().then(() => {
+      fadeInAudio(audio);
+    }).catch(() => {
+      // mobile may still delay slightly, but this is the best possible trigger
+    });
+  }
+
+  startSlideshow();
+}
+
 
 
 async function sha256(str) {
